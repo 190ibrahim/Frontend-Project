@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchUser } from "../api/users";
+import { fetchUser, deleteUser } from "../api/users";
+import { Card, ListGroup, ListGroupItem, Badge, Button } from "react-bootstrap";
 
 const User = () => {
   const navigate = useNavigate();
@@ -15,24 +16,92 @@ const User = () => {
     queryFn: () => fetchUser(id),
   });
 
+  const handleEdit = () => {
+    navigate(`/user/${id}/edit`);
+  };
+
+  const handleDelete = async () => {
+    await deleteUser(id);
+    navigate("/");
+  };
+
   if (isLoading) return "loading...";
   if (isError) return `Error: ${error.message}`;
 
-
   return (
-    <div>
-      <button onClick={() => navigate("/")}>back to list users</button>
-      <h1>{user.name}</h1>
-      <p>{user.email}</p>
-      <p>{user.birthdate}</p>
-      <p>{user.account}</p>
-      <p>{user.companyname}</p>
-      <p>{user.creditcardnum}</p>
+    <div className="d-flex justify-content-center">
+  
+    <Card className="mx-auto"  style={{ width: "30rem" }}>
+      <Card.Header>
+        <h2>{user.name}</h2>
+        <p>
+          <Badge variant="secondary">{user.id}</Badge>
+        </p>
+      </Card.Header>
+      <Card.Body>
+        <ListGroup>
+          <ListGroupItem>Email: {user.email}</ListGroupItem>
+          <ListGroupItem>Birth Date: {user.birthdate}</ListGroupItem>
+          <ListGroupItem>Account: {user.account}</ListGroupItem>
+          <ListGroupItem>Company Name: {user.companyname}</ListGroupItem>
+          <ListGroupItem>Credit Card Number: {user.creditcardnum}</ListGroupItem>
+        </ListGroup>
+      </Card.Body>
+      <Card.Footer>
+        <Button variant="primary" onClick={handleEdit}>
+          Edit
+        </Button>{" "}
+        <Button variant="danger" onClick={handleDelete}>
+          Delete
+        </Button>{" "}
+        <Button variant="secondary" onClick={() => navigate("/users")}>
+          Back to List Users
+        </Button>
+      </Card.Footer>
+    </Card>
     </div>
-  )
-}
+  );
+};
 
 export default User;
+
+
+
+// import { useQuery } from "@tanstack/react-query";
+// import { useNavigate, useParams } from "react-router-dom";
+// import { fetchUser } from "../api/users";
+
+// const User = () => {
+//   const navigate = useNavigate();
+//   const { id } = useParams();
+//   const {
+//     isLoading,
+//     isError,
+//     data: user,
+//     error,
+//   } = useQuery({
+//     queryKey: ["users", id],
+//     queryFn: () => fetchUser(id),
+//   });
+
+//   if (isLoading) return "loading...";
+//   if (isError) return `Error: ${error.message}`;
+
+
+//   return (
+//     <div>
+//       <button onClick={() => navigate("/")}>back to list users</button>
+//       <h1>{user.name}</h1>
+//       <p>{user.email}</p>
+//       <p>{user.birthdate}</p>
+//       <p>{user.account}</p>
+//       <p>{user.companyname}</p>
+//       <p>{user.creditcardnum}</p>
+//     </div>
+//   )
+// }
+
+// export default User;
 
 
 /*

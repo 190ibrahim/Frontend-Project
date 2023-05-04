@@ -1,9 +1,6 @@
 import { useState } from "react";
 import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Button';
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Card from 'react-bootstrap/Card';
 const UserForm = () => {
   const [user, setUser] = useState({
