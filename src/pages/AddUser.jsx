@@ -1,9 +1,8 @@
-import UserForm from './UserForm'
+import UserForm from '../components/UserForm'
 
 const AddUser = () => {
   return (
     <div>
-        <h1>Add New User</h1>
         <UserForm/>
     </div>
   )

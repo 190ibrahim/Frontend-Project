@@ -14,7 +14,7 @@ function LandingPage() {
               <p className="subtitle">Explore our diverse list of customers and their profiles</p>
             </div>
             <div className="buttonContainer">
-              <Link to="/login">
+              <Link to="/adduser">
                 <Button size="lg" className="landingbutton">
                   Add user
                 </Button>

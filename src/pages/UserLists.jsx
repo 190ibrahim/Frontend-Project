@@ -1,12 +1,15 @@
-
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import { deleteUser, fetchUsers } from "../api/users";
-import AddUser from "../components/AddUser";
 
 const UserList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [numToShow, setNumToShow] = useState(5);
 
   const {
     isLoading,
@@ -29,29 +32,85 @@ const UserList = () => {
     deleteUserMutation.mutate(id)
   }
 
-  if (isLoading) return "loading...";
+  const handleShowMore = () => {
+    setNumToShow(numToShow + 5);
+  }
+
+  const handleShowLess = () => {
+    setNumToShow(5);
+  }
+
+  if (isLoading) return "Loading...";
   if (isError) return `Error: ${error.message}`;
 
+  const shownUsers = users.slice(0, numToShow);
+
   return (
-    <div>
-      <AddUser />
-      {users.map((user) => (
-        <div key={user.id} style={{ background: "#777" }}>
-          <h4
-            style={{ cursor: "pointer" }}
-            onClick={() => navigate(`/user/${user.id}`)}
-          >
-            {user.name}
-          </h4>
-          <button onClick={() => navigate(`/user/${user.id}/edit`)}>Edit</button>
-          <button onClick={() => handleDelete(user.id)}>Delete</button>
+    <div className="mx-auto my-5">
+        <Card> 
+      <Card.Header>Users</Card.Header>
+      <Card.Body>
+      <Table responsive striped hover>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Birthdate</th>
+            <th>Account</th>
+            <th>Company Name</th>
+            <th>Credit Card Number</th>
+            <th colSpan="3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {shownUsers.map((user) => (
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td style={{ cursor: "pointer" }} onClick={() => navigate(`/user/${user.id}`)}>
+                {user.name}
+              </td>
+              <td>{user.email}</td>
+              <td>{user.birthdate}</td>
+              <td>{user.account}</td>
+              <td>{user.companyname}</td>
+              <td>{user.creditcardnum}</td>
+              <td>
+                <Button variant="primary" size="sm" onClick={() => navigate(`/user/${user.id}`)}>View</Button>{' '}
+              </td>
+                <td>
+                <Button variant="warning" size="sm" onClick={() => navigate(`/user/${user.id}/edit`)}>Edit</Button>{' '}
+              </td>
+                <td>
+                <Button variant="danger" size="sm" onClick={() => handleDelete(user.id)}>Delete</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+            </Card.Body>
+    </Card>
+
+    <br />
+      {users.length > numToShow && (
+        <div className="text-center">
+          <Button variant="primary" size="sm" onClick={handleShowMore}>Show More</Button>{' '}
+          {numToShow > 5 && <Button variant="secondary" size="sm" onClick={handleShowLess}>Show Less</Button>}
         </div>
-      ))}
+      )}
     </div>
   );
 };
 
 export default UserList;
+
+
+
+
+
+
+
+
 
 /*
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";

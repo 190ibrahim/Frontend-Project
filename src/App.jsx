@@ -6,6 +6,7 @@ import UserLists from "./pages/UserLists"
 import NavBar from "./components/navbar"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingPage from "./pages/LandingPage"
+import AddUser from "./pages/AddUser"
 
 
 
@@ -15,10 +16,11 @@ function App() {
   return (
     <>
     <NavBar />
-
+      <br />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/users" element={<UserLists />} />
+        <Route path="/adduser" element={<AddUser />} />
         <Route path="/user/:id" element={<User />} />
         <Route path="/user/:id/edit" element={<EditUser />} />
       </Routes>
