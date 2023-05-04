@@ -19,7 +19,7 @@ export async function createUser(newUser) {
   return response.json()
 }
 
-export async function updatePost(updatedUser) {
+export async function updateUser(updatedUser) {
   const response = await fetch(`http://localhost:3000/users/${updatedUser.id}`, {
     method: "PUT",
     headers: {
