@@ -2,15 +2,21 @@ import { Route, Routes } from "react-router-dom"
 import EditUser from "./pages/EditUser"
 import User from "./pages/User"
 import UserLists from "./pages/UserLists"
+import NavBar from "./components/navbar"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import LandingPage from "./pages/LandingPage"
+
 
 function App() {
 
 
   return (
     <>
-    <h1>Awesome blog</h1>
+    <NavBar />
+
       <Routes>
-        <Route path="/" element={<UserLists />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/users" element={<UserLists />} />
         <Route path="/user/:id" element={<User />} />
         <Route path="/user/:id/edit" element={<EditUser />} />
       </Routes>
