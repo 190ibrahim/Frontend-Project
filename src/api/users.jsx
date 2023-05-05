@@ -46,3 +46,12 @@ export async function deleteUser(id) {
     console.error(error);
   }
 }
+
+export async function deleteAllUsers() {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/users`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}

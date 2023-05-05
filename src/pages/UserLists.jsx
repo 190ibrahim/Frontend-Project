@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // <-- import Link
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { deleteUser, fetchUsers } from "../api/users";
+import { deleteUser, deleteAllUsers, fetchUsers } from "../api/users";
+
 
 const UserList = () => {
   const navigate = useNavigate();
@@ -27,11 +28,21 @@ const UserList = () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     }
   });
+  
+  const deleteAllUsersMutation = useMutation({
+    mutationFn: deleteAllUsers,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    }
+  });
 
   const handleDelete = (id) => {
     deleteUserMutation.mutate(id)
   }
 
+  const handleDeleteAll = () => {
+    deleteAllUsersMutation.mutate()
+  }
   const handleShowMore = () => {
     setNumToShow(numToShow + 5);
   }
@@ -47,8 +58,17 @@ const UserList = () => {
 
   return (
     <div className="mx-auto my-5">
-        <Card> 
-      <Card.Header>Users</Card.Header>
+    <Card> 
+      <Card.Header>
+        <div className="d-flex justify-content-between align-items-center">
+          <span>Users</span>
+          <div>
+            <Button variant="danger" size="sm" onClick={handleDeleteAll}>Delete All Users</Button>{' '}
+            <Button variant="primary" size="sm" onClick={() => navigate(`/adduser`)}>Add New User</Button>{' '}
+          </div>
+        </div>
+      </Card.Header>
+
       <Card.Body>
       <Table responsive striped hover>
         <thead>
