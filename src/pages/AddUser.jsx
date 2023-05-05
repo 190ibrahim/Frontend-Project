@@ -13,7 +13,7 @@ const AddUser = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       console.log("success bro!");
-      navigate(`/users/${data.id}`); // navigate to the newly created user
+      navigate(`/user/${data.id}`); // navigate to the newly created user
     },
   });
 
