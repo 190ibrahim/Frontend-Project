@@ -1,45 +1,35 @@
-import UserForm from '../components/UserForm'
-
-const AddUser = () => {
-  return (
-    <div>
-        <UserForm/>
-    </div>
-  )
-}
-
-export default AddUser
-
-/*import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { createUser } from "../api/users"
-import UserForm from "./UserForm"
-import { v4 as uuidv4 } from 'uuid';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createUser } from "../api/users";
+import { nanoid } from "nanoid";
+import UserForm from "../components/UserForm";
+import { useNavigate } from "react-router-dom";
 
 const AddUser = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const createUserMutation = useMutation({
     mutationFn: createUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users']});
-      console.log("success bro!")
-    }
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      console.log("success bro!");
+      navigate(`/users/${data.id}`); // navigate to the newly created user
+    },
   });
 
   const handleAddUser = (user) => {
     createUserMutation.mutate({
-      id: uuidv4(),
-      ...user
-    })
-  }
+      id: nanoid(10),
+      ...user,
+    });
+  };
 
   return (
     <div>
-      <h2>Add new user</h2>
       <UserForm onSubmit={handleAddUser} initialValue={{}} />
     </div>
-  )
-}
+  );
+};
 
-export default AddUser
-*/
+export default AddUser;
+

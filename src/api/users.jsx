@@ -1,38 +1,48 @@
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:3000';
+
 export async function fetchUsers() {
-  const response = await fetch('http://localhost:3000/users');
-  return response.json()
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function fetchUser(id) {
-  const response = await fetch(`http://localhost:3000/users/${id}`);
-  return response.json()
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function createUser(newUser) {
-  const response = await fetch(`http://localhost:3000/users`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(newUser)
-  });
-  return response.json()
+  try {
+    const response = await axios.post(`${API_BASE_URL}/users`, newUser);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function updateUser(updatedUser) {
-  const response = await fetch(`http://localhost:3000/users/${updatedUser.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(updatedUser)
-  });
-  return response.json()
+  try {
+    const response = await axios.put(`${API_BASE_URL}/users/${updatedUser.id}`, updatedUser);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function deleteUser(id) {
-  const response = await fetch(`http://localhost:3000/users/${id}`, {
-    method: "DELETE",
-  });
-  return response.json()
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
 }
